@@ -1,0 +1,15 @@
+{
+  "id": "tech.krasivo.tvdesk",
+  "version": "0.3.0",
+  "vendor": "TV Desk",
+  "type": "web",
+  "main": "index.html",
+  "title": "TV Desk",
+  "icon": "icon.png",
+  "largeIcon": "largeIcon.png",
+  "resolution": "1920x1080",
+  "requiredACG": [
+    "application.launcher",
+    "application.query"
+  ]
+}

@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>TV Desk · Настройка телевизора</title>
+<style>
+:root{color-scheme:light;--ink:#152922;--muted:#51645b;--line:#ccd9d1;--pine:#164d38;--pale:#e3f3e9}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:#f6f8f4;font:16px/1.5 Inter,"Segoe UI",system-ui,sans-serif}
+header{background:#102b23;color:#f2f6f0;padding:20px max(5vw,24px);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:13px;font-size:22px;font-weight:750;letter-spacing:-.04em}.mark{display:inline-block;width:31px;height:23px;border:3px solid #9fe2bc;border-radius:6px;position:relative}.mark:after{position:absolute;content:"";width:15px;border-bottom:3px solid #9fe2bc;bottom:-7px;left:5px}.linkstate{font-size:14px;color:#cedbd1}
+main{max-width:1140px;margin:auto;padding:48px 28px 72px}h1,h2,p{margin:0}h1{font-size:clamp(34px,4vw,58px);line-height:1.04;letter-spacing:-.055em;font-weight:650}h2{font-size:23px;letter-spacing:-.035em;line-height:1.25}
+.intro{margin:12px 0 25px;color:var(--muted);max-width:67ch}
+button,.upload{font:inherit;color:var(--ink);background:white;border:1px solid #9baea2;border-radius:8px;cursor:pointer;padding:9px 15px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+button:hover:not(:disabled),.upload:hover{background:#e6efe8}button:focus-visible,select:focus-visible,input:focus-visible,.upload:focus-within{outline:3px solid #16705e;outline-offset:3px}button:disabled{cursor:default;opacity:.45}
+.primary{background:var(--pine);border-color:var(--pine);color:white}.primary:hover:not(:disabled){background:#216347}
+.actions,.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.bar{justify-content:space-between;margin-bottom:12px}
+.status{padding:10px 14px;border-left:3px solid #72a38b;background:var(--pale);margin:20px 0;color:#214d36}.status:empty{display:none}.status.error{border-color:#ab512d;background:#fff0e7;color:#812d11}
+.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;margin:22px 0}.steps{margin:14px 0 0;padding-left:21px}.steps li+li{margin-top:7px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:11px;overflow:hidden;margin:20px 0}.stat{background:#fff;padding:15px 18px}.stat small,.sub{display:block;color:var(--muted);font-size:13px}.stat strong{display:block;font-size:18px;margin-top:4px}
+input[type=text],input[type=search],select{background:#fff;border:1px solid #a7b7ad;border-radius:6px;color:var(--ink);font:inherit;padding:8px 10px}
+.field{display:block;margin:16px 0 10px;font-weight:600}.field input{display:block;width:min(100%,480px);margin-top:5px}.hint{color:var(--muted);font-size:14px;margin:8px 0}
+.tablebox{max-height:54vh;overflow:auto;margin:12px 0 18px;border:1px solid var(--line);border-radius:8px}table{border-collapse:separate;border-spacing:0;width:100%}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #dce5de}th{font-size:13px;position:sticky;top:0;background:#eff4ef}tr:last-child td{border-bottom:0}td small{display:block;color:var(--muted);word-break:break-word}td button{font-size:13px;white-space:nowrap}#file{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.light{font-size:14px;color:var(--muted)}[hidden]{display:none!important}
+@media(max-width:700px){main{padding:28px 12px}.panel{padding:16px}.stats{grid-template-columns:1fr}.tablebox{max-height:none}td,th{padding:7px;font-size:14px}td select{width:105px}.type{display:none}}
+</style>
+<header><div class="brand"><span class="mark" aria-hidden="true"></span>TV Desk</div><span id="badge" class="linkstate">Нет подключения</span></header>
+<main>
+<h1 id="heading">Настройка телевизора</h1>
+<p id="intro" class="intro">Подключите телевизор по Bluetooth, чтобы выбрать приложения для домашнего экрана и удалить ненужные программы.</p>
+<div class="actions"><button class="primary" id="connect">Подключить телевизор</button><button id="watch" hidden>Ожидать этот ТВ</button><button id="disconnect" hidden>Завершить сеанс</button><button id="refresh" hidden>Обновить данные</button></div>
+<p id="notice" class="status" role="status" aria-live="polite"></p>
+<section class="panel" id="start"><h2>Первое подключение</h2><ol class="steps">
+<li>На телевизоре откройте <b>TV Desk → Настройка с ноутбука → Открыть сеанс Bluetooth</b>.</li>
+<li>Для первого сопряжения нажмите на ТВ <b>Сделать ТВ видимым</b> и добавьте телевизор в настройках Bluetooth ноутбука.</li>
+<li>Вернитесь в TV Desk на телевизоре. Здесь нажмите <b>Подключить телевизор</b>, выберите его в списке и разрешите сеанс пультом.</li>
+</ol></section>
+<div id="work" hidden>
+<div class="stats"><div class="stat"><small>Система</small><strong id="os"></strong></div><div class="stat"><small>Свободно в хранилище</small><strong id="disk"></strong></div><div class="stat"><small>Доступная оперативная память</small><strong id="ram"></strong></div></div>
+<section class="panel"><div class="bar"><h2>Домашний экран</h2><span class="light" id="total"></span></div>
+<label class="field">Название экрана<input id="title" type="text" maxlength="48"></label>
+<label class="field">Город на экране TV Desk<input type="text" id="city" maxlength="80" placeholder="Например, Москва"></label>
+<p class="hint">Избранное появится первым. Скрытый ярлык можно вернуть в любой момент.</p>
+<div class="bar"><div class="actions"><label><input id="allApps" type="checkbox"> Без ярлыка тоже</label><label><input type="search" id="search" placeholder="Найти приложение" aria-label="Найти приложение"></label></div>
+<div class="actions"><button id="export">Сохранить профиль в файл</button><label class="upload">Загрузить профиль<input id="file" type="file" accept=".json,application/json"></label></div></div>
+<div class="tablebox"><table><thead><tr><th>Приложение</th><th class="type">Тип</th><th>На экране</th><th>В Android</th></tr></thead><tbody id="rows"></tbody></table></div>
+<div class="actions"><button class="primary" id="apply">Применить на ТВ</button><button id="revert">Отменить правки</button><span class="light" id="dirty"></span></div>
+</section>
+<section class="panel" id="backupPanel"><h2>Копия перед обновлением</h2><p id="envNow"></p>
+<p>Сохраните файл на ноутбуке или флешке. Он содержит текущий профиль TV Desk, названия доступных приложений и системные параметры для сверки. После сброса вход в аккаунты выполняет владелец через меню ТВ или код сервиса.</p>
+<div class="actions split"><button id="backupSave">Сохранить копию ТВ</button><label class="upload button">Сравнить с копией<input type="file" id="backupLoad" accept=".json,application/json" style="position:absolute;width:1px;height:1px;clip-path:inset(50%)"></label>
+<button id="backupRestore" hidden>Перенести профиль в редактор</button></div><p id="backupStatus" role="status"></p><div id="backupReport"></div></section>
+
+<section class="panel"><h2>Системные настройки</h2><p class="hint">Откройте раздел на телевизоре. Доступные действия зависят от прошивки. Завершите действие пультом и нажмите «Назад», чтобы вернуться в TV Desk.</p>
+<div class="actions"><button id="manage">Все приложения Android</button><button id="dateSettings">Дата и время</button><button id="langSettings">Язык</button><button id="locSettings">Местоположение</button><button id="home">Выбрать домашний экран</button></div></section>
+</div></main>
+<script>
+'use strict';
+const uuid='b510816b-29c8-4250-968a-1d598d88be74';
+const $=id=>document.getElementById(id);
+const msg=(s,error=false)=>{$('notice').textContent=s;$('notice').classList.toggle('error',error);};
+let session=null, current=null, draft=new Map(), counter=0, saving=false;
+let knownPort=null, waiting=null;
+function info(mode){
+  backup.refresh();
+  $('badge').textContent=mode;
+  $('work').hidden=!current;$('start').hidden=!!current;
+  $('watch').hidden=!!session||!knownPort;$('watch').textContent=waiting?'Прекратить ожидание':'Ожидать этот ТВ';
+  $('connect').hidden=!!session||!!waiting;$('disconnect').hidden=!session;$('refresh').hidden=!current;
+  $('heading').textContent=current?current.model:'Настройка телевизора';
+  $('intro').hidden=!!current;
+}
+function changed(){
+  return !!current && (current.title!==$('title').value || (current.city||'')!==$('city').value.trim() || current.apps.some(a=>draft.get(a.id)!==(a.pin?'pin':a.hide?'hide':'show')));
+}
+function changeState(){
+  const dirty=changed();$('dirty').textContent=dirty?'Есть несохранённые изменения':'Профиль совпадает с телевизором';
+  $('apply').disabled=!dirty||saving;$('revert').disabled=!dirty||saving;
+}
+function gib(n){return (n/1073741824).toLocaleString('ru-RU',{maximumFractionDigits:1})+' ГиБ';}
+function renderRows(){
+  const rows=$('rows'),query=$('search').value.trim().toLocaleLowerCase('ru'); rows.replaceChildren();
+  const found=current.apps.filter(a=>(a.launchable||$('allApps').checked)&&(a.name+' '+a.id).toLocaleLowerCase('ru').includes(query));
+  for(const a of found){
+    const r=rows.insertRow(),name=r.insertCell(),caption=document.createElement('strong'),pkg=document.createElement('small');
+    caption.textContent=a.name;pkg.textContent=a.id;name.append(caption,pkg);
+    const type=r.insertCell();type.className='type';type.textContent=a.system?'Системное':'Пользовательское';
+    const sel=document.createElement('select');sel.setAttribute('aria-label','Положение '+a.name);
+    for(const [v,l] of [['show','Показывать'],['pin','В избранное'],['hide','Скрыть']])sel.add(new Option(l,v));
+    sel.value=draft.get(a.id);sel.onchange=()=>{draft.set(a.id,sel.value);changeState();};const position=r.insertCell();if(a.launchable)position.append(sel);else position.textContent='Без ярлыка';
+    const details=document.createElement('button');details.textContent='Карточка';details.onclick=()=>openSettings('details',a.id);
+    const ops=r.insertCell();ops.append(details);
+    if(!a.system&&!a.keep){
+      const remove=document.createElement('button');remove.textContent='Удалить…';remove.style.margin='3px';
+      remove.onclick=()=>{if(confirm('Открыть на ТВ запрос на удаление «'+a.name+'»? При подтверждении Android также удалит данные этого приложения.'))openSettings('uninstall',a.id);};
+      ops.append(remove);
+    }
+  }
+  if(!found.length){const cell=rows.insertRow().insertCell();cell.colSpan=4;cell.textContent='Приложений по этому запросу нет.';}
+}
+function setState(data){
+  if(!Array.isArray(data.apps)||typeof data.title!=='string')throw Error('ТВ прислал неполные данные');
+  current=data;draft=new Map(data.apps.map(a=>[a.id,a.pin?'pin':a.hide?'hide':'show']));
+  $('city').value=data.city||'';$('city').disabled=typeof data.city!=='string';
+  $('title').value=data.title;$('total').textContent='Приложений: '+data.apps.length;
+  $('os').textContent='Android '+data.android;$('disk').textContent=gib(data.freeDisk)+' из '+gib(data.totalDisk);
+  $('ram').textContent=gib(data.freeRam)+' из '+gib(data.totalRam);
+  renderRows();info('Bluetooth подключён');changeState();backup.report();
+}
+function payload(){
+  const title=$('title').value.trim();
+  if(!title||title.length>48||/[\u0000-\u001f\u007f]/.test(title))throw Error('Введите название экрана длиной до 48 символов');
+  return {title,...(typeof current.city==='string'?{city:$('city').value.trim()}:{}),pins:[...draft].filter(([,v])=>v==='pin').map(([id])=>id),hidden:[...draft].filter(([,v])=>v==='hide').map(([id])=>id)};
+}
+async function closeSession(s,reason,error=false){
+  if(!s||s.closing)return;
+  s.closing=true;clearTimeout(s.timer);
+  if(session===s){session=null;current=null;draft.clear();saving=false;$('search').value='';info('Нет подключения');msg(reason,error);}
+  for(const call of s.calls.values()){clearTimeout(call.timer);call.reject(Error('Сеанс завершён'));}s.calls.clear();
+  try{if(s.reader)await s.reader.cancel();}catch{}
+  try{if(s.loop)await s.loop;}catch{}
+  try{if(s.writer){await s.writer.abort();s.writer.releaseLock();}}catch{}
+  try{await s.port.close();}catch{}
+}
+function command(op,body={}){
+  const s=session;if(!s||s.closing||!s.writer)return Promise.reject(Error('Сеанс завершён'));
+  const id=++counter;
+  return new Promise((resolve,reject)=>{
+    const fail=e=>{const c=s.calls.get(id);if(c){s.calls.delete(id);clearTimeout(c.timer);reject(e);}};
+    const timer=setTimeout(()=>{fail(Error('Телевизор не ответил. Переподключитесь и проверьте состояние.'));closeSession(s,'Телевизор не ответил. Переподключитесь и проверьте состояние.',true);},op==='state'||op==='profile'?45000:16000);
+    s.calls.set(id,{resolve,reject,timer});
+    s.writer.write(new TextEncoder().encode(JSON.stringify({id,op,...body})+'\n')).catch(e=>{
+      fail(e);closeSession(s,'Не удалось отправить команду',true);
+    });
+  });
+}
+function receive(s,m){
+  if(session!==s||s.closing)return;
+  if(m.event==='approval'){msg('Подтвердите подключение пультом на телевизоре.');return;}
+  if(m.event==='ready'){
+    if(m.version!==1){closeSession(s,'Несовместимая версия TV Desk',true);return;}
+    clearTimeout(s.timer);knownPort=s.port;
+    command('state').then(d=>{if(session===s){setState(d);msg('Телевизор подключён.');}}).catch(e=>closeSession(s,e.message,true));
+    return;
+  }
+  const c=s.calls.get(m.id);if(!c)return;s.calls.delete(m.id);clearTimeout(c.timer);
+  if(m.ok)c.resolve(m.data);else c.reject(Error(m.error||'Android отклонил действие'));
+}
+async function read(s){
+  const dec=new TextDecoder();let pending='',reason='Телевизор завершил сеанс';const reader=s.reader;
+  try{
+    while(!s.closing){
+      const {value,done}=await reader.read();if(done)break;
+      pending+=dec.decode(value,{stream:true});if(pending.length>2*1024*1024)throw Error('Ответ превышает допустимый размер');
+      let nl;while((nl=pending.indexOf('\n'))>=0){const line=pending.slice(0,nl);pending=pending.slice(nl+1);if(line.trim())receive(s,JSON.parse(line));}
+    }
+  }catch(e){reason='Соединение прервано. '+e.message;}
+  finally{reader.releaseLock();s.reader=null;if(!s.closing)queueMicrotask(()=>closeSession(s,reason,true));}
+}
+function connectionError(e){
+  if(e.name==='NotFoundError')return 'Телевизор не выбран. Проверьте сопряжение в Windows и откройте сеанс на ТВ.';
+  return 'Не удалось подключиться. '+e.message;
+}
+function stopWaiting(message){
+  if(!waiting)return;
+  clearTimeout(waiting.retry);clearTimeout(waiting.deadline);waiting=null;
+  info('Нет подключения');if(message)msg(message);
+}
+async function attach(port,alreadyOpen=false){
+  const s={port,calls:new Map()};session=s;info('Подключение…');msg('Открываю канал Bluetooth…');
+  try{
+    if(!alreadyOpen)await port.open({baudRate:115200,bufferSize:32768});
+    if(s.closing){try{await port.close();}catch{}return;}
+    s.reader=port.readable.getReader();s.writer=port.writable.getWriter();
+    s.timer=setTimeout(()=>closeSession(s,'Телевизор не подтвердил сеанс. Откройте его повторно.',true),60000);
+    s.loop=read(s);
+  }catch(e){await closeSession(s,connectionError(e),true);}
+}
+$('watch').onclick=()=>{
+  if(waiting){stopWaiting('Ожидание отменено.');return;}
+  if(!knownPort||session)return;
+  const watch={port:knownPort};waiting=watch;
+  info('Ожидаю телевизор');msg('Вставьте привязанную флешку, пока на экране открыт TV Desk. Панель ожидает этот телевизор до трёх минут.');
+  watch.deadline=setTimeout(()=>{if(waiting===watch)stopWaiting('Время ожидания истекло.');},180000);
+  const attempt=async()=>{
+    if(waiting!==watch)return;
+    try{
+      await watch.port.open({baudRate:115200,bufferSize:32768});
+    }catch{
+      if(waiting===watch)watch.retry=setTimeout(attempt,5000);
+      return;
+    }
+    if(waiting!==watch){try{await watch.port.close();}catch{}return;}
+    stopWaiting();await attach(watch.port,true);
+  };
+  attempt();
+};
+$('connect').onclick=async()=>{
+  if(!navigator.serial){msg('Откройте эту страницу в настольном Google Chrome 117 или новее.',true);return;}
+  $('connect').disabled=true;
+  try{
+    const port=await navigator.serial.requestPort({allowedBluetoothServiceClassIds:[uuid],filters:[{bluetoothServiceClassId:uuid}]});
+    await attach(port);
+  }catch(e){msg(connectionError(e),true);}
+  finally{$('connect').disabled=false;}
+};
+$('disconnect').onclick=()=>closeSession(session,'Сеанс завершён с ноутбука');
+$('refresh').onclick=async()=>{
+  if(changed()&&!confirm('Заменить несохранённые правки текущим профилем телевизора?'))return;
+  const s=session;try{const d=await command('state');if(session===s){setState(d);msg('Данные обновлены.');}}catch(e){msg(e.message,true);}
+};
+$('revert').onclick=()=>{setState(current);msg('Правки отменены.');};
+$('apply').onclick=async()=>{
+  const s=session;saving=true;changeState();$('work').inert=true;
+  try{const d=await command('profile',payload());if(session===s){setState(d);msg('Профиль сохранён на телевизоре.');}}
+  catch(e){msg(e.message,true);}finally{saving=false;$('work').inert=false;changeState();}
+};
+async function openSettings(op,app){
+  try{await command(op,app?{app}:{});msg('Раздел открыт на ТВ. Завершите действие пультом, нажмите «Назад» и обновите данные.');}
+  catch(e){msg(e.message,true);}
+}
+$('manage').onclick=()=>openSettings('manage');$('home').onclick=()=>openSettings('home');
+$('allApps').onchange=renderRows;$('city').oninput=changeState;$('search').oninput=renderRows;$('title').oninput=changeState;
+$('export').onclick=()=>{
+  try{
+    const p=payload(),url=URL.createObjectURL(new Blob([JSON.stringify({format:'tvdesk-1',...p},null,2)],{type:'application/json'}));
+    const a=document.createElement('a');a.href=url;a.download='tvdesk-profile.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    msg('Профиль подготовлен для сохранения на ноутбуке.');
+  }catch(e){msg(e.message,true);}
+};
+$('file').onchange=async e=>{
+  const f=e.target.files[0],s=session;e.target.value='';if(!f||!s)return;
+  try{
+    if(f.size>131072)throw Error('Слишком большой файл профиля');
+    const p=JSON.parse(await f.text());if(session!==s||!current)return;
+    if(p.format!=='tvdesk-1'||typeof p.title!=='string'||!p.title.trim()||p.title.length>48||/[\u0000-\u001f\u007f]/.test(p.title)
+      ||!Array.isArray(p.pins)||!Array.isArray(p.hidden)||![...p.pins,...p.hidden].every(x=>typeof x==='string'))throw Error('Неверный формат профиля');
+    const pins=new Set(p.pins),hidden=new Set(p.hidden);
+    for(const id of pins)if(hidden.has(id))throw Error('В профиле есть противоречащие настройки');
+    const usable=new Set(current.apps.filter(a=>a.launchable).map(a=>a.id));
+    const missing=[...new Set([...pins,...hidden])].filter(id=>!usable.has(id)).length;
+    for(const a of current.apps)draft.set(a.id,a.launchable&&pins.has(a.id)?'pin':a.launchable&&hidden.has(a.id)?'hide':'show');
+    $('title').value=p.title;if(typeof p.city==='string'&&!$('city').disabled)$('city').value=p.city.slice(0,80);renderRows();changeState();msg('Профиль загружен для просмотра. Недоступных на этом ТВ ярлыков: '+missing+'.');
+  }catch(err){msg(err.message,true);}
+};
+// Local backup files contain TV Desk settings and a catalogue reported by the TV.
+function mountBackup(get,restore,storeAction){
+ let reference=null,identity='';
+ const by=id=>document.getElementById(id);
+ const fields={language:'Язык',zone:'Часовой пояс',localeRegion:'Регион языка',auto_time:'Время по сети',auto_time_zone:'Часовой пояс по сети',locationService:'Геолокация в системе'};
+ function env0(value){const result={};for(const k of [...Object.keys(fields),'clock']){
+   if(typeof value?.[k]==='string')result[k]=value[k].slice(0,100);
+ }return result;}
+ function line(parent,text){const p=document.createElement('p');p.textContent=text;parent.append(p);return p;}
+ function latest(){const live=get();if(!live)throw Error('Подключите телевизор');return live;}
+ function validate(j,live){
+   const p=j?.profile,cat=j?.apps,good=x=>typeof x==='string'&&x.length>0&&x.length<=200;
+   if(j?.format!=='tvdesk-backup-1'||j.brand!==live.brand||j.mode!==live.mode)throw Error('Выберите копию той же платформы и режима.');
+   if(!p||typeof p.title!=='string'||!p.title.trim()||p.title.length>48||typeof p.city!=='string'||p.city.length>80
+     ||!Array.isArray(cat)||cat.length>6000||!cat.every(a=>a&&good(a.id)&&good(a.name))
+     ||![p.pins,p.hidden].every(x=>Array.isArray(x)&&x.length<=6000&&x.every(good))
+     ||new Set([...p.pins,...p.hidden]).size!==p.pins.length+p.hidden.length)throw Error('Повреждённый файл резервной копии');
+   return {created:typeof j.created==='string'?j.created.slice(0,40):'',apps:cat.map(a=>({id:a.id,name:a.name})),profile:{title:p.title,city:p.city,pins:p.pins,hidden:p.hidden},environment:env0(j.environment)};
+ }
+ function refresh(){
+   const live=get();const target=live?.identity||'';
+   if(identity!==target){reference=null;identity=target;by('backupReport').replaceChildren();by('backupStatus').textContent='';}
+   if(!live)return;
+   const env=live.environment||{};
+   by('envNow').textContent=Object.entries(fields).filter(([k])=>env[k]).map(([k,label])=>label+' · '+env[k]).join('   |   ')||'Системные сведения недоступны в этой версии клиента.';
+   by('backupRestore').hidden=!reference;
+ }
+ function report(){
+   const live=latest(),box=by('backupReport');box.replaceChildren();if(!reference)return;
+   const now=new Set(live.apps.map(a=>a.id));
+   const missing=reference.apps.filter(a=>!now.has(a.id));
+   line(box,'В копии '+reference.apps.length+' приложений или ярлыков. Сейчас в каталоге совпадает '+(reference.apps.length-missing.length)+'.');
+   for(const [k,label] of Object.entries(fields)){const was=reference.environment[k],current=live.environment?.[k];if(was)line(box,label+' — в копии '+was+' · сейчас '+(current||'нет сведений'));}
+   if(reference.environment.clock)line(box,'Часы ТВ при создании копии · '+reference.environment.clock);
+   line(box,'Город в профиле · '+(reference.profile.city||'не указан'));
+   if(missing.length){line(box,'ТВ сейчас не сообщает следующие ярлыки. Проверьте их в магазине или меню приложений.');
+     const ul=document.createElement('ul');for(const a of missing){const li=document.createElement('li');li.textContent=a.name+' ('+a.id+') ';
+       if(storeAction&&/^[\w]+(\.[\w]+)+$/.test(a.id)){const b=document.createElement('button');b.textContent='Открыть в Google Play на ТВ';b.onclick=()=>storeAction(a.id);li.append(b);}
+       ul.append(li);}box.append(ul);}
+   by('backupRestore').hidden=false;
+ }
+ by('backupSave').onclick=()=>{
+   try{const l=latest(),p=l.profile,t=new Date().toISOString();
+    const j={format:'tvdesk-backup-1',brand:l.brand,mode:l.mode,created:t,environment:env0(l.environment),
+      profile:{title:p.title,city:p.city||'',pins:[...p.pins],hidden:[...p.hidden]},apps:l.apps.map(a=>({id:a.id,name:a.name}))};
+    const url=URL.createObjectURL(new Blob([JSON.stringify(j,null,2)],{type:'application/json'})),a=document.createElement('a');
+    a.href=url;a.download='TV-Desk-'+l.brand+'-'+t.replace(/[:.]/g,'-')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    by('backupStatus').textContent='Копия подтверждённого профиля подготовлена. Записей в каталоге · '+j.apps.length+'.';
+   }catch(e){by('backupStatus').textContent=e.message;}
+ };
+ by('backupLoad').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+   try{const old=latest();if(f.size>4*1024*1024)throw Error('Слишком большой файл');const j=JSON.parse(await f.text()),live=latest();if(old.identity!==live.identity)return;
+    reference=validate(j,live);report();by('backupStatus').textContent='Сравнение готово. Изменения можно просмотреть перед применением.';
+   }catch(err){reference=null;by('backupRestore').hidden=true;by('backupReport').replaceChildren();by('backupStatus').textContent=err.message;}
+ };
+ by('backupRestore').onclick=()=>{if(!reference)return;try{restore(reference.profile);by('backupStatus').textContent='Профиль перенесён в редактор. Проверьте его и нажмите «Применить на ТВ».';}catch(e){by('backupStatus').textContent=e.message;}};
+ return {refresh,report};
+}
+
+const backup=mountBackup(()=>current?{identity:session,brand:'android',mode:'native',environment:current.environment,
+  apps:current.apps.filter(a=>a.launchable||!a.system),profile:{title:current.title,city:current.city||'',
+   pins:current.apps.filter(a=>a.pin).map(a=>a.id),hidden:current.apps.filter(a=>a.hide).map(a=>a.id)}}:null,
+ p=>{$('title').value=p.title;if(!$('city').disabled)$('city').value=p.city;
+  for(const a of current.apps)draft.set(a.id,a.launchable&&p.pins.includes(a.id)?'pin':a.launchable&&p.hidden.includes(a.id)?'hide':'show');
+  renderRows();changeState();},id=>openSettings('store',id));
+$('dateSettings').onclick=()=>openSettings('clock');$('langSettings').onclick=()=>openSettings('locale');$('locSettings').onclick=()=>openSettings('location');
+if(!navigator.serial)msg('Для работы по Bluetooth откройте файл в настольном Google Chrome 117 или новее.',true);
+</script></html>

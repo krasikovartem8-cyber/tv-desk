@@ -1,0 +1,14 @@
+LG webOS • Установка тестового приложения
+
+1. Установите на телевизор приложение Developer Mode из магазина LG. Войдите в свою учётную запись LG Developer, включите Dev Mode Status и перезагрузите ТВ по его запросу. Откройте Developer Mode снова и включите Key Server.
+2. Установите webOS CLI по инструкции LG. Если установлен Node.js поддерживаемой версии, пакет CLI устанавливается командой npm install -g @webos-tools/cli. Выберите профиль ТВ командой ares-config --profile tv.
+3. Выполните ares-setup-device. Добавьте устройство под именем myTV. Укажите IP телевизора, порт 9922 и пользователя prisoner. Выполните ares-novacom --device myTV --getkey и введите фразу, которую показывает ТВ.
+4. Из папки LG выполните:
+   ares-install --device myTV tech.krasivo.tvdesk_0.3.0_all.ipk
+   ares-launch --device myTV tech.krasivo.tvdesk
+5. На ноутбуке в панели TV Desk выберите LG и нажмите «Начать сеанс». На ТВ введите адрес ноутбука и код. Без ноутбука приложение может открывать ранее настроенные ярлыки с пульта.
+6. Чтобы снять только эту тестовую установку, используйте системный интерфейс либо ares-install --device myTV --remove tech.krasivo.tvdesk. Удаление приложения удаляет его локальный профиль. Сохраните профиль в панели, если он нужен.
+
+Пересборка из каталога LG: ares-package app --no-minify -o .
+Документация: https://webostv.developer.lge.com/develop/getting-started/developer-mode-app
+Команды CLI: https://webostv.developer.lge.com/develop/tools/cli-dev-guide

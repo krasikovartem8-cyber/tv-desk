@@ -1,0 +1,15 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TV Desk</title><link rel="stylesheet" href="tv.css"><script src="webOSTV.js"></script></head>
+<body data-brand="lg" data-mode="native"><header><b>TV Desk</b> <span id="platform"></span></header>
+<main><h1 id="heading">Мои приложения</h1><div><b id="clock"></b> <span id="cityText"></span></div><p id="mode"></p><div id="tiles"></div><p id="empty"></p>
+<div class="actions"><button id="setup">Настройка с ноутбука</button><button id="openGuide">Обслуживание</button></div>
+<section id="service" hidden><h2>Подключение к ноутбуку</h2>
+<p>Запустите TV Desk на ноутбуке, выберите эту марку и нажмите «Начать сеанс».</p>
+<p id="duid"></p><label id="hostLabel">Адрес ноутбука <input id="host" maxlength="24" placeholder="192.168.1.10:8765"></label>
+<label>Код с ноутбука <input id="pin" maxlength="8" type="text" inputmode="numeric" autocomplete="off" placeholder="8 цифр"></label>
+<button id="pair">Разрешить настройку</button><button id="hideSetup">Закрыть</button>
+<div id="lgExtra" hidden><label>ID приложения webOS <input id="appId" maxlength="100" placeholder="Например, netflix"></label><button id="addId">Проверить и добавить</button></div>
+</section>
+<section id="guide" hidden><h2>Обслуживание телевизора</h2><div id="steps"></div><button id="hideGuide">Закрыть инструкцию</button></section>
+<p id="message" role="status"></p><button id="leave" hidden>Завершить сеанс</button>
+</main><script src="tv.js"></script></body></html>

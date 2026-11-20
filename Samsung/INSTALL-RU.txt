@@ -1,0 +1,17 @@
+Samsung Tizen • Подпись и установка на конкретную модель
+
+1. На ноутбуке установите Tizen Studio, инструменты Web CLI, Samsung TV Extension и Samsung Certificate Extension. Включите Developer Mode на телевизоре и укажите IP ноутбука. Путь к переключателю зависит от года выпуска. Подключите телевизор через Device Manager и проверьте, что он виден командой sdb devices.
+2. В панели TV Desk → Samsung → «Найти подключённые ТВ» выберите устройство SDK и нажмите «Прочитать DUID». Если прошивка его не отдаёт, проверьте Unique ID в меню поддержки телевизора. Откройте Certificate Manager, создайте профиль Samsung для TV. Включите DUID своего тестового телевизора в сертификат дистрибьютора и сохраните профиль. Действие Permit to install applications в Device Manager выполните, если оно предусмотрено вашим SDK. Данные учётной записи и ключи подписи остаются у вас.
+3. В Windows запустите BUILD-WGT.cmd и введите имя профиля. Скрипт использует местный Tizen CLI и сохраняет подписанный TV-Desk-Samsung.wgt в этой папке. Другой вариант — импортировать папку app как существующий Web-проект, выбрать ваш профиль и выполнить Build Signed Package.
+4. Откройте терминал в папке с полученным файлом. Подставьте серийный идентификатор вашего ТВ из sdb devices:
+   tizen install -s ИДЕНТИФИКАТОР -n TV-Desk-Samsung.wgt -- .
+   Откройте TV Desk на телевизоре. При ошибке подписи проверьте DUID, срок действия сертификата, разрешение на установку и выбранный профиль.
+5. На ноутбуке выберите Samsung → «Начать сеанс». На ТВ откройте «Настройка с ноутбука», укажите адрес ноутбука с портом и код, подтвердите доступ. Для повторной вставки USB инструкция находится в START-RU.txt.
+6. Для удаления выберите TV Desk в обычном списке приложений и подтвердите действие. При необходимости заранее экспортируйте профиль.
+
+Сертификаты: https://developer.samsung.com/smarttv/develop/getting-started/setting-up-sdk/creating-certificates.html
+Подключение устройства: https://developer.samsung.com/smarttv/develop/getting-started/using-sdk/tv-device.html
+Команды SDK: https://developer.samsung.com/smarttv/develop/getting-started/using-sdk/command-line-interface.html
+Ограничения установки с USB: https://developer.samsung.com/smarttv/develop/faq/application-installation.html
+
+После установки TV Desk повторная вставка маркированной флешки при открытом приложении покажет DUID, если API доступен. Перед обновлением клиента экспортируйте профиль.
